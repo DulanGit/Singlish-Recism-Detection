@@ -11,7 +11,7 @@ import os
 
 from main.preprocess.singlish_preprocess import singlish_preprocess
 from main.preprocess.sinhala_preprocess import sinhala_preprocess
-from params import DICTIONARY, FILES
+from params import DICTIONARY, FILES, DIR
 from data.data_loader import data_loader
 from params import MISC
 from main.logger import Logger
@@ -25,7 +25,7 @@ class data_generator(object):
         self.sinhala_pre_process_o = sinhala_preprocess()
         self.singlish_pre_process_o = singlish_preprocess()
         self.type_count = None
-        self.logger = Logger.get_logger('data-gen.log')
+        self.logger = Logger.get_logger(DIR.LOGS_DIR, 'data-gen.log')
 
     def delete_file(self, filename):
         if os.path.exists(filename):

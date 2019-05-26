@@ -80,10 +80,10 @@ class Model(object):
         self.logger.info(msg)
         print(msg)
 
-    def test_accuracy(self, feature_generator):
+    def test_accuracy(self, feature_generator, optim_dict):
         messages_test = pd.read_csv(FILES.SEP_CSV_FILE_PATHS.format('test'), sep=',', names=["message", "label"])
         test_x, test_y = messages_test['message'], messages_test['label']
-        test_features = feature_generator(test_x)
+        test_features = feature_generator(test_x, optim_dict)
         predictions = ["Racist" if np.argmax(pred) == 0 else "Neutral" for pred in self.model.predict(test_features)]
         mat = confusion_matrix(predictions, test_y)
         total_acc = 1.0*(mat[0][0]+mat[1][1])/(mat[0][0]+ mat[0][1]+ mat[1][0]+ mat[1][1])

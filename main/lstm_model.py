@@ -141,15 +141,17 @@ class LSTMModel(Model):
     def train(self, x_train_corpus, y_train_corpus):
         pass
 
-    def feature_gen(self, x_corpus):
+    def feature_gen(self, x_corpus, optim_dict=None):
+        if optim_dict is None:
+            optim_dict = {'max_word_count':LSTMP.LSTM_MAX_WORD_COUNT}
         x_train_corpus = self.transform_to_dictionary_values(x_corpus, self.dictionary)
-        return sequence.pad_sequences(x_train_corpus, maxlen=LSTMP.LSTM_MAX_WORD_COUNT)
+        return sequence.pad_sequences(x_train_corpus, maxlen=optim_dict['max_word_count'])
 
     def train_n_test(self, x_train_corpus, y_train_corpus, x_test_corpus, y_test_corpus, optim_dict):
         self.dictionary = self.build_dictionary(x_train_corpus, dictionary_size=LSTMP.DICT_SIZE)
         self.pic_obj.save_obj(LSTMP.DICTIONARY_FILENAME, self.dictionary)
 
-        x_train_corpus = self.feature_gen(x_train_corpus)
+        x_train_corpus = self.feature_gen(x_train_corpus, optim_dict)
         y_train_corpus = self.transform_class_to_one_hot_representation(y_train_corpus)
         self.dictionary_length = len(self.dictionary) + 2
 
@@ -187,7 +189,7 @@ class LSTMModel(Model):
 
             # for each epoch
             for epoch in range(int(optim_dict['epochs'])):
-                self.log_n_print("Epoch: {}/{} | Fold {}/{}".format(epoch+1, 1, fold+1, int(optim_dict['fold_count'])))
+                self.log_n_print("Epoch: {}/{} | Fold {}/{}".format(epoch+1, optim_dict['epochs'], fold+1, int(optim_dict['fold_count'])))
                 history = self.model.fit(x=x_train, y=y_train, epochs=1, batch_size=int(optim_dict['batch_size']), validation_data=(x_valid, y_valid),
                                     verbose=1, shuffle=True)
 
@@ -228,7 +230,7 @@ class LSTMModel(Model):
             self.model = load_model("%s/model_fold_%d.h5" % (optim_dict['output_dir'], fold))
             self.log_n_print(
                 "========== Fold {} : Accuracy for test data set in data/output_test.csv =========".format(fold))
-            total_acc = self.test_accuracy(self.feature_gen)
+            total_acc = self.test_accuracy(self.feature_gen, optim_dict)
             fold_test_acc.append(total_acc)
             if best_overall_accuracy < total_acc:
                 best_overall_accuracy = total_acc
@@ -265,7 +267,7 @@ class LSTMModel(Model):
         self.train_n_test(train_x, train_y, test_x, test_y, optim_dict)
 
         self.model = load_model("%s/%s" % (optim_dict['output_dir'], LSTMP.MODEL_FILENAME))
-        acc = self.test_accuracy(self.feature_gen)
+        acc = self.test_accuracy(self.feature_gen, optim_dict)
         self.model.save(osp.join(optim_dict['output_dir'], LSTMP.MODEL_FILENAME_ACC.format(acc)))
 
 
@@ -333,7 +335,7 @@ class LSTMModel(Model):
             with open(osp.join(optim_dict['output_dir'], 'optim_dict.json'), 'w') as fp:
                 json.dump(optim_dict, fp)
             self.train_now(optim_dict)
-            self.predict_cli()
+            # self.predict_cli()
         else:
             self.load_values()
             self.predict_cli()
