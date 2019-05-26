@@ -6,11 +6,12 @@ Created on May 04, 2019
 import time
 from main.graph import Graph
 from random_word import RandomWords
+from params import DIR
 
 class PerformanceTest(object):
     def __init__(self, name):
         self.name = name
-        self.graph_obj_1 = Graph('lstm-graph')
+        self.graph_obj_1 = Graph(DIR.GRAPH_SAV_LOC, 'lstm-graph')
 
     def get_random_sen(self, length):
         r = RandomWords()

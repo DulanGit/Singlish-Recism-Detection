@@ -47,7 +47,7 @@ class GRUP:
     MAX_EPOCHS              = 15
     BATCH_SIZE              = 4
     DICT_SIZE               = -1
-    OUTPUT_DIR              = 'save'
+    OUTPUT_DIR              = osp.join(ABS_PATH_TO_FILE, 'main/save')
     N_GRAM_LEN              = 1
     DATA_SET_CLASSES = {
         'Neutral': [0, 1],
@@ -63,13 +63,13 @@ class GRUP:
     PERF_TEST_NAME          = 'GRU'
 
 class LSTMP:
-    LSTM_MAX_WORD_COUNT     = 60
+    LSTM_MAX_WORD_COUNT     = 20
     FOLDS_COUNT             = 4
     VALIDATION_TEST_SIZE    = 0.2
     MAX_EPOCHS              = 15
     BATCH_SIZE              = 4
     DICT_SIZE               = -1
-    OUTPUT_DIR              = 'save'
+    OUTPUT_DIR              = osp.join(ABS_PATH_TO_FILE, 'main', 'save')
     N_GRAM_LEN              = 1
     DATA_SET_CLASSES = {
         'Neutral': [0, 1],
@@ -96,7 +96,7 @@ class NN:
     VALIDATION_TEST_SIZE    = 0.2
     MAX_EPOCHS              = 10
     BATCH_SIZE              = 10
-    OUTPUT_DIR              = 'save'
+    OUTPUT_DIR              = osp.join(ABS_PATH_TO_FILE,'save')
     LOG_FILE_NAME           = 'neural-net'
     DATA_SET_CLASSES = {
         'Neutral': [0, 1],

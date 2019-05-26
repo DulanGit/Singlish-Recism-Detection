@@ -9,10 +9,10 @@ from params import DIR
 
 class Logger(object):
     @staticmethod
-    def get_logger(name):
+    def get_logger(log_file_dir, name):
         logger = logging.getLogger(name)
         logger.setLevel(logging.DEBUG)
-        lof_file_name = osp.join(DIR.LOGS_DIR, name + '.log')
+        lof_file_name = osp.join(log_file_dir, name + '.log')
         if not osp.exists(lof_file_name):
             open(lof_file_name, 'a').close()
         fh = logging.FileHandler(lof_file_name)
