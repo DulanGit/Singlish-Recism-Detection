@@ -1,0 +1,4 @@
+python main/lstm_model.py --train --optim '{"fold_count":4, "epochs":2, "lstm_units":100, "max_word_count":10, "output_dim": 60, "output_dir":"save-1", "graph_save_loc":"graph", "logs_dir":"logs"}'
+python main/lstm_model.py --train --optim '{"fold_count":4, "epochs":15, "lstm_units":600, "max_word_count":60, "output_dim": 60, "output_dir":"save-1", "graph_save_loc":"graph", "logs_dir":"logs"}'
+python main/lstm_model.py --train --optim '{"fold_count":4, "epochs":15, "lstm_units":300, "max_word_count":30, "output_dim": 60, "output_dir":"save-2", "graph_save_loc":"graph", "logs_dir":"logs"}'
+python main/lstm_model.py --train --optim '{"fold_count":4, "epochs":15, "lstm_units":200, "max_word_count":20, "output_dim": 60, "output_dir":"save-4", "graph_save_loc":"graph", "logs_dir":"logs"}'
